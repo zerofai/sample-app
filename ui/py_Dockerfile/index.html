@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My 1980's Web</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        button {
+            padding: 15px 25px;
+            border-radius: 5px;
+            background-color: #00f;
+            color: #fff;
+            font-size: 24px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px; /* Add spacing between buttons */
+        }
+
+        button:last-child {
+            margin-bottom: 0; /* Remove spacing on last button */
+        }
+
+        button:hover {
+            background-color: #66f;
+        }
+
+        #greetingResponse,
+        #weatherResponse {
+            margin: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="getGreeting()">Get Greeting</button>
+    <button onclick="getWeather()">Get Weather</button>
+
+    <div id="greetingResponse"></div>
+    <div id="weatherResponse"></div>
+
+    <script>
+        function getGreeting() {
+            fetch('/greeting')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the greeting data
+                    console.log(data);
+                    document.getElementById('greetingResponse').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
+        }
+
+        function getWeather() {
+            fetch('/weather')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the weather data
+                    console.log(data);
+                    document.getElementById('weatherResponse').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
+        }
+    </script>
+</body>
+</html>

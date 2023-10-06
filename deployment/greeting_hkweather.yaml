@@ -1,0 +1,189 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeting-hkw-greeting
+  namespace: greeting-hkw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeting-hkw-greeting
+  template:
+    metadata:
+      labels:
+        app: greeting-hkw-greeting
+        tier: backend
+    spec:
+      containers:
+        - name: greeting-hkw-greeting
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5001
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          image: zerofai/greeting-hkw_greeting:202309141515
+          ports:
+            - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greeting-hkw-greeting
+  namespace: greeting-hkw
+  labels:
+    app: greeting-hkw-greeting
+spec:
+  ports:
+    - port: 5001
+  selector:
+    app: greeting-hkw-greeting
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeting-hkw-weather
+  namespace: greeting-hkw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeting-hkw-weather
+  template:
+    metadata:
+      labels:
+        app: greeting-hkw-weather
+        tier: backend
+    spec:
+      containers:
+        - name: greeting-hkw-weather
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5002
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5002
+            initialDelaySeconds: 10
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          image: zerofai/greeting-hkw_weather:202309150841
+          ports:
+            - containerPort: 5002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greeting-hkw-weather
+  namespace: greeting-hkw
+  labels:
+    app: greeting-hkw-weather
+spec:
+  ports:
+    - port: 5002
+  selector:
+    app: greeting-hkw-weather
+    tier: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greeting-hkw-ui
+  namespace: greeting-hkw
+  labels:
+    app: greeting-hkw-ui
+spec:
+  ports:
+    - port: 5000
+      nodePort: 30030
+  selector:
+    app: greeting-hkw-ui
+    tier: frontend
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeting-hkw-ui
+  namespace: greeting-hkw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeting-hkw-ui
+  template:
+    metadata:
+      labels:
+        app: greeting-hkw-ui
+        tier: frontend
+    spec:
+      containers:
+        - name: greeting-hkw-ui
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          image: zerofai/greeting-hkw_ui:1980-202309151059
+          env:
+          - name: GREETING_HOSTNAME
+            value: greeting-hkw-greeting:5001
+          - name: WEATHER_HOSTNAME
+            value: greeting-hkw-weather:5002
+          ports:
+            - containerPort: 5000

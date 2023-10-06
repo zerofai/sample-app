@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web</title>
+</head>
+<body>
+    <button onclick="getGreeting()">Get Greeting</button>
+    <button onclick="getWeather()">Get Weather</button>
+
+    <div id="greetingResponse"></div>
+    <div id="weatherResponse"></div>
+
+    <script>
+        function getGreeting() {
+            fetch('/greeting')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the greeting data
+                    console.log(data);
+                    document.getElementById('greetingResponse').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
+        }
+
+        function getWeather() {
+            fetch('/weather')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the weather data
+                    console.log(data);
+                    document.getElementById('weatherResponse').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
+        }
+    </script>
+</body>
+</html>
