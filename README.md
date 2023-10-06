@@ -10,12 +10,16 @@ A web UI with 2 button
 Code and Dockerfile inside ./ui/Dockerfile
 
 # Greeting
-A service that will return random greeting phrase and current time, which the greeting phrase now stored in S3
+A service that will return random greeting phrase and current time
 Code and Dockerfile inside ./greeting/Dockerfile
 
 # Weather
 A service that will reach out to HKO to get current werather info of Hong Kong
 Code and Dockerfile inside ./weather/Dockerfile
+
+# Image
+A service that will connect to S3 and get a random image to show
+Code and Dockerfile inside ./image/Dockerfile
 
 # To Test locally 
 ```

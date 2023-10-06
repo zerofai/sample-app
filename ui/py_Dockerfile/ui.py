@@ -5,6 +5,7 @@ import requests
 template_dir = os.path.abspath('')  # Set the template directory to the current directory
 GREETING_HOSTNAME = os.getenv('GREETING_HOSTNAME')  # Read Greeting API hostname from environmental variable
 WEATHER_HOSTNAME = os.getenv('WEATHER_HOSTNAME')  # Read Weather API hostname from environmental variable
+IMAGE_API_HOSTNAME = os.getenv('IMAGE_API_HOSTNAME')  # Read Image API URL from environmental variable
 
 app = Flask(__name__, template_folder=template_dir)
 
@@ -27,6 +28,13 @@ def get_weather():
     weather_response.raise_for_status()  # Raise an exception for non-200 status codes
     weather = weather_response.json()
     return weather
+
+@app.route('/image', methods=['GET'])
+def get_image():
+    image_api_url = f"requests.get(IMAGE_API_HOSTNAME)/v1/image"
+    image_api_url.raise_for_status()  # Raise an exception for non-200 status codes
+    image = image_api_url.content
+    return image
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
