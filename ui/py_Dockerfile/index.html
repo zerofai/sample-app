@@ -35,7 +35,8 @@
         }
 
         #greetingResponse,
-        #weatherResponse {
+        #weatherResponse,
+        #imageResponse {
             margin: 20px;
             font-size: 18px;
         }
@@ -44,9 +45,11 @@
 <body>
     <button onclick="getGreeting()">Get Greeting</button>
     <button onclick="getWeather()">Get Weather</button>
+    <button onclick="getImage()">Get Image</button>
 
     <div id="greetingResponse"></div>
     <div id="weatherResponse"></div>
+    <div id="imageResponse"></div>
 
     <script>
         function getGreeting() {
@@ -75,6 +78,28 @@
                     // Handle any errors
                     console.error(error);
                 });
+        }
+
+        function getImage() {
+            fetch('/image')
+            .then(response => response.blob())
+            .then(blob => {
+            // Create a URL for the image blob
+            const imageUrl = URL.createObjectURL(blob);
+
+            // Create an image element and set its source
+            const imageElement = document.createElement('img');
+            imageElement.src = imageUrl;
+
+            // Append the image to the imageResponse element
+            const imageResponseElement = document.getElementById('imageResponse');
+            imageResponseElement.innerHTML = '';
+            imageResponseElement.appendChild(imageElement);
+            })
+            .catch(error => {
+            // Handle any errors
+            console.error(error);
+            });
         }
     </script>
 </body>

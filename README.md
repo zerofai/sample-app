@@ -25,6 +25,7 @@ Code and Dockerfile inside ./image/Dockerfile
 ```
 export GREETING_HOSTNAME=127.0.0.1:5001
 export WEATHER_HOSTNAME=127.0.0.1:5002
+export IMAGE_HOSTNAME=127.0.0.1:5003
 ```
 
 # To Build the image on M1 for x64
