@@ -1,6 +1,6 @@
 # Greeting HKWeather
 
-A very simple python based microservices contain 3 component:
+A very simple python based microservices contain 4 component:
 
 ![image](https://github.com/zerofai/greeting_hkweather/assets/20843048/f3799bea-74aa-4cf5-b1f2-bdf9a83cdc1d)
 
