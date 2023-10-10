@@ -2,7 +2,8 @@
 
 A very simple python based microservices contain 4 component:
 
-![image](https://github.com/zerofai/greeting_hkweather/assets/20843048/f3799bea-74aa-4cf5-b1f2-bdf9a83cdc1d)
+<img width="1030" alt="Screenshot 2023-10-10 at 09 36 13" src="https://github.com/zerofai/greeting_hkweather_image/assets/20843048/89fe4c44-9450-4847-ad7c-bed568c1cb9c">
+
 
 
 # UI
