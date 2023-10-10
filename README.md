@@ -7,20 +7,21 @@ A very simple python based microservices contain 4 component:
 
 
 # UI
-A web UI with 2 button
-Code and Dockerfile inside ./ui/Dockerfile
+A web UI with 2 button written in python
+Code and Dockerfile inside ./ui/py_Dockerfile
 
 # Greeting
-A service that will return random greeting phrase and current time
-Code and Dockerfile inside ./greeting/Dockerfile
+A service that will return random greeting phrase and current time written in python
+Code and Dockerfile inside ./greeting/py_Dockerfile
 
 # Weather
-A service that will reach out to HKO to get current werather info of Hong Kong
-Code and Dockerfile inside ./weather/Dockerfile
+A service that will reach out to HKO to get current werather info of Hong Kong written in go
+Code and Dockerfile inside ./weather/go_Dockerfile
+Existing Python version can find in ./weather/py_Dockerfile
 
 # Image
-A service that will connect to S3 and get a random image to show
-Code and Dockerfile inside ./image/Dockerfile
+A service that will connect to S3 and get a random image to show, written in python
+Code and Dockerfile that tested with minio is inside ./image/py_Dockerfile_minio
 
 # To Test locally 
 ```
