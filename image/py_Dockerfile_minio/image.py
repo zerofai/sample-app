@@ -1,7 +1,7 @@
 import boto3
 import random
 import os
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 
 app = Flask(__name__)
 
@@ -37,5 +37,10 @@ def get_random_image():
   
     return response
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def fallback(path):
+    return jsonify(message="Sorry, please use the right endpoint")
+
 if __name__ == '__main__':
-    app.run(port=5003)
+    app.run(host='0.0.0.0', port=5003)
