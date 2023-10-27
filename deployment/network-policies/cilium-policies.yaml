@@ -1,0 +1,130 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: greeting-hkw-ui
+  namespace: greeting-hkw
+spec:
+  endpointSelector:
+    matchLabels:
+      name: greeting-hkw-ui
+  ingress:
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "5000"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: greeting-hkw-weather
+  namespace: greeting-hkw
+spec:
+  endpointSelector:
+    matchLabels:
+      name: greeting-hkw-weather
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            name: greeting-hkw-ui
+      toPorts:
+        - ports:
+            - port: "5002"
+              protocol: TCP
+  egress:
+    - toFQDNs:
+        - matchName: data.weather.gov.hk
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: greeting-hkw-image
+  namespace: greeting-hkw
+spec:
+  endpointSelector:
+    matchLabels:
+      name: greeting-hkw-image
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            name: greeting-hkw-ui
+      toPorts:
+        - ports:
+            - port: "5003"
+              protocol: TCP
+  egress:
+    - toCIDRSet:
+        - cidr: 192.168.114.54/32
+      toPorts:
+        - ports:
+            - port: "9000"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: greeting-hkw-greeting
+  namespace: greeting-hkw
+spec:
+  endpointSelector:
+    matchLabels:
+      name: greeting-hkw-greeting
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            name: greeting-hkw-ui
+      toPorts:
+        - ports:
+            - port: "5001"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
