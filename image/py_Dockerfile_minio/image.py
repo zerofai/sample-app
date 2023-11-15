@@ -8,8 +8,8 @@ app = Flask(__name__)
 bucket_url = os.getenv('S3_URL')
 bucket_name = os.getenv('S3_BUCKET')
 region_name = os.getenv('S3_REGION')
-aws_access_key = os.getenv('aws_access_key')
-aws_secret_key = os.getenv('aws_secret_key')
+aws_access_key = os.getenv('access_key')
+aws_secret_key = os.getenv('secret_key')
 
 # Create MinIO client and ignore SSL certificate errors
 s3_client = boto3.client(
