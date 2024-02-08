@@ -31,7 +31,7 @@ export IMAGE_HOSTNAME=127.0.0.1:5003
 
 # To Build the image on M1 for x64
 ```
-docker build --platform linux/amd64 -t imagename .
+docker build . --platform linux/amd64 -t imagename 
 ```
 
 Image has been build and pushed to DockerHub, for image name please refer to below yaml

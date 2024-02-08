@@ -7,5 +7,6 @@ go run main.go
 
 To build the go on M1 for x64
 ```
+go mod init 
 GOOS=linux GOARCH=amd64 go build -o weather_amd64
 ```
