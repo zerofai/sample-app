@@ -10,8 +10,11 @@ COPY requirements.txt .
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the code to the container
+# Copy the python code and html to the container
 COPY ui.py index.html .
+
+# Copy the static folder and its contents to the container
+COPY static static
 
 # Expose the container port
 EXPOSE 5000
