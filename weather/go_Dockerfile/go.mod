@@ -1,3 +1,3 @@
-module weather_go
+module main.go
 
-go 1.21.1
+go 1.22.0
