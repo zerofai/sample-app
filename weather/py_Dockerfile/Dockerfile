@@ -1,5 +1,5 @@
 # Use an official Python runtime as the base image
-FROM python:3.9-slim
+FROM cgr.dev/chainguard/python:latest
 
 # Set the working directory in the container
 WORKDIR /weather
