@@ -19,6 +19,7 @@ def index():
 @app.route('/greeting', methods=['GET'])
 def get_greeting():
     greeting_api_url = f"http://{GREETING_HOSTNAME}/v1/greeting"
+    print(f'{greeting_api_url}')
     try:
         greeting_response = requests.get(greeting_api_url)
         if greeting_response.status_code == 200:
@@ -64,4 +65,4 @@ def fallback(path):
     return jsonify(message="Sorry, please use the right endpoint")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port={CONTAINER_PORT})
+    app.run(host='0.0.0.0', port=CONTAINER_PORT)

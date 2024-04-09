@@ -1,7 +1,10 @@
 from flask import Flask, jsonify
+import os
 import random
 import datetime
 import pytz
+
+CONTAINER_PORT = os.getenv('containerPort', '5001')  # Read containerPort from environmental variable
 
 app = Flask(__name__)
 
@@ -23,4 +26,4 @@ def fallback(path):
     return jsonify(message="Sorry, please use the right endpoint")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=CONTAINER_PORT)
