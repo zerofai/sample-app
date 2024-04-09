@@ -3,9 +3,10 @@ import os
 import requests
 
 template_dir = os.path.abspath('')  # Set the template directory to the current directory
-GREETING_HOSTNAME = os.getenv('GREETING_HOSTNAME')  # Read Greeting API hostname from environmental variable
-WEATHER_HOSTNAME = os.getenv('WEATHER_HOSTNAME')  # Read Weather API hostname from environmental variable
-IMAGE_HOSTNAME = os.getenv('IMAGE_HOSTNAME')  # Read Image API URL from environmental variable
+CONTAINER_PORT = os.getenv('containerPort', '5000')  # Read containerPort from environmental variable
+GREETING_HOSTNAME = os.getenv('GREETING_HOSTNAME', 'greeting')  # Read Greeting API hostname from environmental variable
+WEATHER_HOSTNAME = os.getenv('WEATHER_HOSTNAME', 'weather')  # Read Weather API hostname from environmental variable
+IMAGE_HOSTNAME = os.getenv('IMAGE_HOSTNAME', 'image')  # Read Image API URL from environmental variable
 
 app = Flask(__name__, template_folder=template_dir)
 
@@ -37,7 +38,7 @@ def get_weather():
         if weather_response.status_code == 200:
             weather_response.raise_for_status()  # Raise an exception for non-200 status codes
             weather = weather_response.json()
-            return weather
+            return jsonify(weather)
         else:
             return jsonify(service_na)
     except requests.exceptions.RequestException:
@@ -63,4 +64,4 @@ def fallback(path):
     return jsonify(message="Sorry, please use the right endpoint")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port={CONTAINER_PORT})
