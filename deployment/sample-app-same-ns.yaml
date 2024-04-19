@@ -1,21 +1,26 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sample-app
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: greeting-hkw-image
-  namespace: greeting-hkw
+  name: image
+  namespace: sample-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: greeting-hkw-image
+      app: image
   template:
     metadata:
       labels:
-        app: greeting-hkw-image
+        app: image
         tier: backend
     spec:
       containers:
-        - name: greeting-hkw-image
+        - name: image
           livenessProbe:
             httpGet:
               path: /
@@ -41,21 +46,21 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          image: zerofai/greeting-hkw_image:202310091607
+          image: zerofai/greeting-hkw_image:202311151224
           env:
           - name: S3_URL
-            value: https://minio.demo.reslv.one:9000
+            value: https://minio_url
           - name: S3_BUCKET
-            value: demo-images
+            value: demo-image
           - name: aws_access_key
             valueFrom:
               secretKeyRef:
-                name: greeting-hkw-image-secret
+                name: image-secret
                 key: aws_access_key
           - name: aws_secret_key
             valueFrom:
               secretKeyRef:
-                name: greeting-hkw-image-secret
+                name: image-secret
                 key: aws_secret_key
           ports:
             - containerPort: 5003
@@ -63,35 +68,35 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: greeting-hkw-image
-  namespace: greeting-hkw
+  name: image
+  namespace: sample-app
   labels:
-    app: greeting-hkw-image
+    app: image
 spec:
   ports:
     - port: 5003
   selector:
-    app: greeting-hkw-image
+    app: image
     tier: backend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: greeting-hkw-greeting
-  namespace: greeting-hkw
+  name: greeting
+  namespace: sample-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: greeting-hkw-greeting
+      app: greeting
   template:
     metadata:
       labels:
-        app: greeting-hkw-greeting
+        app: greeting
         tier: backend
     spec:
       containers:
-        - name: greeting-hkw-greeting
+        - name: greeting
           livenessProbe:
             httpGet:
               path: /
@@ -117,42 +122,42 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          image: zerofai/greeting-hkw_greeting:202309141515
+          image: zerofai/app-greeting:202404091603
           ports:
             - containerPort: 5001
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: greeting-hkw-greeting
-  namespace: greeting-hkw
+  name: greeting
+  namespace: sample-app
   labels:
-    app: greeting-hkw-greeting
+    app: greeting
 spec:
   ports:
     - port: 5001
   selector:
-    app: greeting-hkw-greeting
+    app: greeting
     tier: backend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: greeting-hkw-weather
-  namespace: greeting-hkw
+  name: weather
+  namespace: sample-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: greeting-hkw-weather
+      app: weather
   template:
     metadata:
       labels:
-        app: greeting-hkw-weather
+        app: weather
         tier: backend
     spec:
       containers:
-        - name: greeting-hkw-weather
+        - name: weather
           livenessProbe:
             httpGet:
               path: /
@@ -178,42 +183,42 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          image: zerofai/greeting-hkw_weather:202309150841
+          image: zerofai/app-weather:202404101041
           ports:
             - containerPort: 5002
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: greeting-hkw-weather
-  namespace: greeting-hkw
+  name: weather
+  namespace: sample-app
   labels:
-    app: greeting-hkw-weather
+    app: weather
 spec:
   ports:
     - port: 5002
   selector:
-    app: greeting-hkw-weather
+    app: weather
     tier: backend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: greeting-hkw-ui
-  namespace: greeting-hkw
+  name: ui
+  namespace: sample-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: greeting-hkw-ui
+      app: ui
   template:
     metadata:
       labels:
-        app: greeting-hkw-ui
+        app: ui
         tier: frontend
     spec:
       containers:
-        - name: greeting-hkw-ui
+        - name: ui
           livenessProbe:
             httpGet:
               path: /
@@ -239,29 +244,29 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          image: zerofai/greeting-hkw_ui:202310091522
+          image: zerofai/app-ui:202404091552
           env:
           - name: GREETING_HOSTNAME
-            value: greeting-hkw-greeting:5001
+            value: greeting:5001
           - name: WEATHER_HOSTNAME
-            value: greeting-hkw-weather:5002
+            value: weather:5002
           - name: IMAGE_HOSTNAME
-            value: greeting-hkw-image:5003
+            value: image:5003
           ports:
             - containerPort: 5000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: greeting-hkw-ui
-  namespace: greeting-hkw
+  name: ui
+  namespace: sample-app
   labels:
-    app: greeting-hkw-ui
+    app: ui
 spec:
   ports:
     - port: 5000
       nodePort: 30030
   selector:
-    app: greeting-hkw-ui
+    app: ui
     tier: frontend
   type: NodePort
