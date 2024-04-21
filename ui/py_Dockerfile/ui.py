@@ -7,6 +7,7 @@ CONTAINER_PORT = os.getenv('containerPort', '5000')  # Read containerPort from e
 GREETING_HOSTNAME = os.getenv('GREETING_HOSTNAME', 'greeting')  # Read Greeting API hostname from environmental variable
 WEATHER_HOSTNAME = os.getenv('WEATHER_HOSTNAME', 'weather')  # Read Weather API hostname from environmental variable
 IMAGE_HOSTNAME = os.getenv('IMAGE_HOSTNAME', 'image')  # Read Image API URL from environmental variable
+NAMEGEN_HOSTNAME = os.getenv('NAMEGEN_HOSTNAME', 'namegen')  # Read Image API URL from environmental variable
 
 app = Flask(__name__, template_folder=template_dir)
 
@@ -19,7 +20,6 @@ def index():
 @app.route('/greeting', methods=['GET'])
 def get_greeting():
     greeting_api_url = f"http://{GREETING_HOSTNAME}/v1/greeting"
-    print(f'{greeting_api_url}')
     try:
         greeting_response = requests.get(greeting_api_url)
         if greeting_response.status_code == 200:
@@ -57,6 +57,20 @@ def get_image():
         else:
             return jsonify(service_na)
     except requests.exceptions.RequestException:
+        return jsonify(service_na)
+
+@app.route('/namegen', methods=['GET'])
+def get_namegen():
+    namegen_api_url = f"http://{NAMEGEN_HOSTNAME}/v1/name"
+    try:
+        namegen_response = requests.get(namegen_api_url)
+        if namegen_response.status_code == 200:
+            namegen_response.raise_for_status()  # Raise an exception for non-200 status codes
+            namegen = namegen_response.text  # Get the response as a string
+            return jsonify({"name": namegen})
+        else:
+            return jsonify(service_na)
+    except requests.exceptions.RequestException as e:
         return jsonify(service_na)
 
 @app.route('/', defaults={'path': ''})

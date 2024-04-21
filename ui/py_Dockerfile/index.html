@@ -50,10 +50,12 @@
     <button onclick="getGreeting()">Get Greeting</button>
     <button onclick="getWeather()">Get Weather</button>
     <button onclick="getImage()">Get Image</button>
+    <button onclick="getNamegen()">Generate Name</button>
 
     <div id="greetingResponse"></div>
     <div id="weatherResponse"></div>
     <div id="imageResponse"></div>
+    <div id="namegenResponse"></div>
 
     <script>
         function getGreeting() {
@@ -104,6 +106,20 @@
             // Handle any errors
             console.error(error);
             });
+        }
+
+        function getNamegen() {
+            fetch('/namegen')
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the weather data
+                    console.log(data);
+                    document.getElementById('namegenResponse').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
         }
     </script>
 </body>

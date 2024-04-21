@@ -318,7 +318,7 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          image: zerofai/app-ui:202404091552
+          image: zerofai/app-ui:202404211716
           env:
           - name: GREETING_HOSTNAME
             value: greeting:5001
@@ -326,6 +326,8 @@ spec:
             value: weather:5002
           - name: IMAGE_HOSTNAME
             value: image:5003
+          - name: NAMEGEN_HOSTNAME
+            value: namegen:5004
           ports:
             - containerPort: 5000
 ---
