@@ -1,7 +1,7 @@
 FROM alpine:latest
 
-WORKDIR /weather
+WORKDIR /name
 
-COPY ./weather_go/weather_amd64 /weather/weather_amd64
+COPY ./name_go/name_amd64 /name/name_amd64
 
-CMD ["./weather_amd64"]
+CMD ["./name_amd64"]
