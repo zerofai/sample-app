@@ -6,6 +6,80 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: namegen
+  namespace: sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: namegen
+  template:
+    metadata:
+      labels:
+        app: namegen
+        tier: backend
+    spec:
+      containers:
+        - name: namegen
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5004
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5004
+            initialDelaySeconds: 10
+            periodSeconds: 120
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          image: zerofai/app-namegen:202404211620
+          env:
+          - name: dbHost
+            value: "dbhost:3306"
+          - name: username
+            valueFrom:
+              secretKeyRef:
+                name: namegen-secret
+                key: username
+          - name: password
+            valueFrom:
+              secretKeyRef:
+                name: namegen-secret
+                key: password
+          ports:
+            - containerPort: 5004
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: namegen
+  namespace: sample-app
+  labels:
+    app: namegen
+spec:
+  ports:
+    - port: 5003
+  selector:
+    app: namegen
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: image
   namespace: sample-app
 spec:
@@ -46,7 +120,7 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          image: zerofai/greeting-hkw_image:202311151224
+          image: zerofai/app-image:202404211629
           env:
           - name: S3_URL
             value: https://minio_url
