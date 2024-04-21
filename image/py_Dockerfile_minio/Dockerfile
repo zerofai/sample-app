@@ -1,5 +1,5 @@
 # Use an official Python runtime as the base image
-FROM cgr.dev/chainguard/python:latest
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /image
