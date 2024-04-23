@@ -1,4 +1,4 @@
-# This is the same as the python version, but in go lang
+# This is a namegen app that need to connect to a mariadb DB, the name of the table is names, and the DB info is retrieve via env var
 
 To run without build
 ```
