@@ -39,3 +39,8 @@ Image has been build and pushed to DockerHub, for image name please refer to bel
 
 # Deployment on k8s 
 A sample k8s deployment has been create and the yaml is inside ./deployment/greeting_hkweather.yaml
+
+# To Build python on M1 for x64, require x86_64 python on mac
+```
+pyinstaller --target-arch x86_64 --onefile target.py
+```
