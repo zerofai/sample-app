@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fetcher
+  namespace: app-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fetcher
+  template:
+    metadata:
+      labels:
+        app: fetcher
+        tier: backend
+    spec:
+      containers:
+        - name: fetcher
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          image: zerofai/fetcher:202405231454
+          env: 
+          - name: TARGET_URL
+            value: "http://ui-svc:8000/greeting,http://ui-svc:8000/weather,http://ui-svc:8000/namegen,http://ui-svc:8000/notexist,http://ui-svc:8000/image"
+          - name: INTERVAL
+            value: '180'
+          - name: INSECURE
+            value: 'YES'
