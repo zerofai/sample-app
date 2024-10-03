@@ -1,4 +1,4 @@
-# Sample-APp
+# Sample-App
 
 This repo contains few very simple python and GO based microservices:
 
