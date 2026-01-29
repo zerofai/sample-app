@@ -1,5 +1,5 @@
 # Use apline as base image
-FROM alpine:latest
+FROM alpine:3.23.3
 
 # Download and install glibc
 RUN apk add --no-cache bash curl
